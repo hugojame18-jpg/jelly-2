@@ -27,17 +27,22 @@
     var total = 0;
     cart.forEach(function (item) {
       var qty = item.qty || 1;
-      total += (item.priceValue || 0) * qty;
+      var lineTotal = (item.priceValue || 0) * qty;
+      total += lineTotal;
       var row = document.createElement('div');
       row.className = 'ship__item';
       row.innerHTML =
         '<img src="' + item.img + '" alt="' + item.name + '">' +
         '<div class="ship__item-info">' +
           '<p class="ship__item-name">' + item.name + '</p>' +
-          '<p class="ship__item-meta">Qté ' + qty + ' &middot; ' + item.price + '</p>' +
-        '</div>';
+          '<p class="ship__item-meta">Qté ' + qty + '</p>' +
+        '</div>' +
+        '<span class="ship__item-price">' + euro(lineTotal) + '</span>';
       listEl.appendChild(row);
     });
+
+    var badgeEl = document.getElementById('ship-badge');
+    if (badgeEl) badgeEl.hidden = total < 2;
 
     if (totalBox) {
       totalBox.hidden = false;

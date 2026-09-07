@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Livraison — Jellypin</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{background:var(--cream-light)}
+  .ship{max-width:920px;margin:0 auto;padding:28px 20px 60px}
+  .ship__logo{display:block;text-align:center;margin-bottom:22px}
+  .ship__logo span{font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:22px;letter-spacing:.02em;color:var(--burgundy)}
+  .ship__grid{display:grid;grid-template-columns:1fr;gap:24px}
+  @media (min-width:820px){.ship__grid{grid-template-columns:1.3fr 1fr}}
+  .ship__card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:22px}
+  .ship__title{font-size:18px;font-weight:700;margin-bottom:4px}
+  .ship__sub{color:var(--grey);font-size:13.5px;margin-bottom:18px}
+  .ship__row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .ship__field{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+  .ship__field label{font-size:12.5px;font-weight:600;color:var(--ink)}
+  .ship__field input,.ship__field select{
+    font:inherit;font-size:15px;padding:11px 12px;border:1px solid var(--line);
+    border-radius:6px;background:#fff;color:var(--ink);width:100%;
+  }
+  .ship__field input:focus,.ship__field select:focus{outline:2px solid var(--burgundy);outline-offset:1px}
+  .ship__phone{display:grid;grid-template-columns:110px 1fr;gap:8px}
+  .ship__submit{
+    width:100%;margin-top:6px;padding:15px 20px;background:var(--burgundy);color:#fff;
+    border:0;border-radius:6px;font-size:15.5px;font-weight:700;cursor:pointer;transition:opacity .15s;
+  }
+  .ship__submit:hover{opacity:.9}
+  .ship__submit:disabled{opacity:.6;cursor:default}
+  .ship__secure{display:flex;align-items:center;gap:6px;justify-content:center;margin-top:12px;font-size:12.5px;color:var(--grey)}
+  .ship__items{display:flex;flex-direction:column;gap:14px;margin-bottom:18px}
+  .ship__item{display:flex;gap:12px;align-items:center}
+  .ship__item img{width:60px;height:60px;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:#fff}
+  .ship__item-info{flex:1;min-width:0}
+  .ship__item-name{font-size:13.5px;font-weight:600;line-height:1.3}
+  .ship__item-meta{font-size:12.5px;color:var(--grey)}
+  .ship__totalrow{display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--line);font-size:15px;font-weight:700}
+  .ship__empty{font-size:14px;color:var(--grey);text-align:center;padding:20px 0}
+  .ship__error{display:none;color:#c0392b;font-size:13px;margin-top:-6px;margin-bottom:14px}
+  .ship__error.visible{display:block}
+</style>
+</head>
+<body>
+
+<div class="ship">
+  <a class="ship__logo" href="index.html"><span>Jellypin</span></a>
+
+  <div class="ship__grid">
+    <div class="ship__card">
+      <p class="ship__title">Adresse de livraison</p>
+      <p class="ship__sub">Remplissez vos informations pour finaliser votre commande.</p>
+
+      <form id="shipping-form" novalidate autocomplete="on">
+        <div class="ship__row">
+          <div class="ship__field">
+            <label for="f-first">Prénom</label>
+            <input id="f-first" name="firstName" type="text" autocomplete="given-name" required autofocus>
+          </div>
+          <div class="ship__field">
+            <label for="f-last">Nom</label>
+            <input id="f-last" name="lastName" type="text" autocomplete="family-name" required>
+          </div>
+        </div>
+
+        <div class="ship__field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" autocomplete="email" required>
+        </div>
+
+        <div class="ship__field">
+          <label for="f-phone">Téléphone</label>
+          <div class="ship__phone">
+            <select id="f-phone-prefix" aria-label="Indicatif pays">
+              <option value="+33" selected>🇫🇷 +33</option>
+              <option value="+32">🇧🇪 +32</option>
+              <option value="+41">🇨🇭 +41</option>
+              <option value="+352">🇱🇺 +352</option>
+              <option value="+1">🇨🇦 +1</option>
+              <option value="+44">🇬🇧 +44</option>
+              <option value="+49">🇩🇪 +49</option>
+              <option value="+34">🇪🇸 +34</option>
+              <option value="+39">🇮🇹 +39</option>
+              <option value="+351">🇵🇹 +351</option>
+            </select>
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel-national" placeholder="6 12 34 56 78" required>
+          </div>
+        </div>
+
+        <div class="ship__field">
+          <label for="f-address">Adresse</label>
+          <input id="f-address" name="address" type="text" autocomplete="address-line1" required>
+        </div>
+
+        <div class="ship__row">
+          <div class="ship__field">
+            <label for="f-zip">Code postal</label>
+            <input id="f-zip" name="zip" type="text" autocomplete="postal-code" required>
+          </div>
+          <div class="ship__field">
+            <label for="f-city">Ville</label>
+            <input id="f-city" name="city" type="text" autocomplete="address-level2" required>
+          </div>
+        </div>
+
+        <div class="ship__field">
+          <label for="f-country">Pays</label>
+          <select id="f-country" name="country" autocomplete="country-name" required>
+            <option value="France" selected>France</option>
+            <option value="Belgique">Belgique</option>
+            <option value="Suisse">Suisse</option>
+            <option value="Luxembourg">Luxembourg</option>
+            <option value="Canada">Canada</option>
+            <option value="Royaume-Uni">Royaume-Uni</option>
+            <option value="Allemagne">Allemagne</option>
+            <option value="Espagne">Espagne</option>
+            <option value="Italie">Italie</option>
+            <option value="Portugal">Portugal</option>
+          </select>
+        </div>
+
+        <p class="ship__error" id="ship-error">Merci de compléter tous les champs.</p>
+
+        <button class="ship__submit" type="submit" id="ship-submit">Continuer vers le paiement</button>
+        <p class="ship__secure">🔒 Paiement sécurisé &middot; Livraison sous 3 jours</p>
+      </form>
+    </div>
+
+    <div class="ship__card">
+      <p class="ship__title">Votre commande</p>
+      <div class="ship__items" id="ship-items"></div>
+      <p class="ship__empty" id="ship-empty" hidden>Votre panier est vide.</p>
+      <div class="ship__totalrow" id="ship-total" hidden>
+        <span>Total</span>
+        <strong id="ship-total-amount"></strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+<script src="shipping.js"></script>
+</body>
+</html>

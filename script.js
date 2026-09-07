@@ -330,7 +330,8 @@
       }
       if (checkout) {
         checkout.hidden = false;
-        checkout.href = tier.url;
+        checkout.href = 'shipping.html';
+        try { localStorage.setItem('jc_checkout_url', tier.url); } catch (e) { /* stockage indisponible */ }
       }
       if (promoEl) {
         var diff = tier.price - total;

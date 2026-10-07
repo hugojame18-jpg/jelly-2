@@ -45,10 +45,9 @@
     var pool = window.PRODUCTS.filter(function(p) {
       return filterCat ? p.badge === filterCat : true;
     });
-    // Mystere en tete, puis Jellycats normaux, puis Halloween en dernier
+    // Mystere en tete, puis les Jellypins normaux
     var rank = function (p) {
       if (p.badge === 'Mystère') return 0;
-      if (p.badge === 'Halloween') return 2;
       return 1;
     };
     pool.sort(function (a, b) { return rank(a) - rank(b); });

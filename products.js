@@ -34,17 +34,17 @@ window.PRODUCTS = [
   },
   {
     slug: 'pack-mystere-halloween',
-    name: 'Pack Mystère Halloween',
+    name: 'Pack Mystère Surprise',
     sku: 'JP-MYST03',
     price: 49.99,
     priceLabel: '49,99€',
-    dim: 'Surprise — 3 peluches Halloween',
+    dim: 'Surprise — 3 peluches',
     crumbs: ['Accueil', 'Collections', 'Jellypin Mystère'],
     reviews: 0,
     badge: 'Mystère',
     desc: [
-      'Trois peluches tirées exclusivement dans la collection Halloween : vampires, fantômes, citrouilles ou momies, la pioche est différente à chaque commande.',
-      'Édition saisonnière, stock limité — une fois la collection écoulée, ce pack disparaît.'
+      'Trois Jellypins tirés au hasard dans toute la collection, toutes saisons confondues : la pioche est différente à chaque commande.',
+      'Jamais deux fois la même peluche dans un pack — et toujours au moins une pièce des collections saisonnières.'
     ],
     imgs: []
   },

@@ -57,7 +57,7 @@
   } else {
     rows = (cat.rows || []).map(function (r) {
       var p = r.split('|');
-      return { slug: p[0], name: p[1], price: p[2], badge: p[3], img: (p[4] && p[4].match(/^https?:/) ? p[4] : PFX + p[4]) };
+      return { slug: p[0], name: p[1], price: p[2], badge: p[3], img: (p[4] && /^(https?:|img\/)/.test(p[4]) ? p[4] : PFX + p[4]) };
     });
   }
 

@@ -23,7 +23,7 @@
           slug: f[0], name: f[1], sku: '', dim: '',
           price: parseFloat((f[2].match(/(\d+),(\d{2})/) || [0, 0, 0])[1] + '.' + (f[2].match(/(\d+),(\d{2})/) || [0, 0, '00'])[2]),
           priceLabel: f[2], badge: f[3], crumbs: ['Accueil', cat.title], reviews: 0,
-          desc: [], imgs: [PFX + f[4]], partial: true
+          desc: [], imgs: [/^(https?:|img\/)/.test(f[4]) ? f[4] : PFX + f[4]], partial: true
         };
         return true;
       });

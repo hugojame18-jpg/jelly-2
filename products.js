@@ -14,7 +14,7 @@ window.PRODUCTS = [
       'Un Jellypin choisi au hasard dans toute la collection, expédié dans son emballage surprise. Personne ne sait lequel arrive — pas même nous.',
       'Le moyen le moins cher de commencer sa collection, ou de tenter sa chance sur une pièce rare.'
     ],
-    imgs: []
+    imgs: ['img/mystere/jellypin-mystere.jpg']
   },
   {
     slug: 'duo-mystere',
@@ -30,7 +30,7 @@ window.PRODUCTS = [
       'Deux Jellypins tirés au sort dans toute la collection, jamais deux fois le même dans un duo. On garantit la surprise, pas le thème.',
       'La bonne façon de doubler sa collection sans choisir — et sans y passer une heure.'
     ],
-    imgs: []
+    imgs: ['img/mystere/duo-mystere.jpg']
   },
   {
     slug: 'pack-mystere-halloween',
@@ -46,7 +46,7 @@ window.PRODUCTS = [
       'Trois Jellypins tirés au hasard dans toute la collection, toutes saisons confondues : la pioche est différente à chaque commande.',
       'Jamais deux fois la même peluche dans un pack — et toujours au moins une pièce des collections saisonnières.'
     ],
-    imgs: []
+    imgs: ['img/mystere/pack-mystere-surprise.jpg']
   },
   {
     slug: 'coffret-mystere-collection',
@@ -62,7 +62,7 @@ window.PRODUCTS = [
       'Cinq Jellypins surprise, dont au moins une pièce rare ou déjà retirée du catalogue. Le seul coffret où la pièce rare est garantie.',
       'Livré dans son emballage collector, prêt à offrir tel quel.'
     ],
-    imgs: []
+    imgs: ['img/mystere/coffret-mystere-collection.jpg']
   },
   {
     slug: 'pack-duo-fruits',

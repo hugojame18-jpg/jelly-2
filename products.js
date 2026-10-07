@@ -30,10 +30,7 @@ window.PRODUCTS = [
       'Deux Jellypins tirés au sort dans toute la collection, jamais deux fois le même dans un duo. On garantit la surprise, pas le thème.',
       'La bonne façon de doubler sa collection sans choisir — et sans y passer une heure.'
     ],
-    imgs: [
-      'https://jellyween.com/__l5e/assets-v1/2ba6e233-d300-4186-add7-bdc47a2d2ac9/boo-ghost.jpg',
-      'https://jellyween.com/__l5e/assets-v1/920f031a-9b08-426c-8b30-a71558013e94/bubbling-cauldron.jpg'
-    ]
+    imgs: []
   },
   {
     slug: 'pack-mystere-halloween',
@@ -49,10 +46,7 @@ window.PRODUCTS = [
       'Trois peluches tirées exclusivement dans la collection Halloween : vampires, fantômes, citrouilles ou momies, la pioche est différente à chaque commande.',
       'Édition saisonnière, stock limité — une fois la collection écoulée, ce pack disparaît.'
     ],
-    imgs: [
-      'https://jellyween.com/__l5e/assets-v1/c2a86bfe-74a5-4b08-8866-8e6470872a58/citrouille.jpg',
-      'https://jellyween.com/__l5e/assets-v1/7214d154-b1a4-4249-8dad-ca59515b3a9d/ours-fantome.jpg'
-    ]
+    imgs: []
   },
   {
     slug: 'coffret-mystere-collection',
@@ -68,10 +62,7 @@ window.PRODUCTS = [
       'Cinq Jellypins surprise, dont au moins une pièce rare ou déjà retirée du catalogue. Le seul coffret où la pièce rare est garantie.',
       'Livré dans son emballage collector, prêt à offrir tel quel.'
     ],
-    imgs: [
-      'https://jellyween.com/__l5e/assets-v1/8ffa8487-a153-4ea9-8841-3f2fd96431fa/halloween-layer-cake.jpg',
-      'https://jellyween.com/__l5e/assets-v1/2ba6e233-d300-4186-add7-bdc47a2d2ac9/boo-ghost.jpg'
-    ]
+    imgs: []
   },
   {
     slug: 'pack-duo-fruits',

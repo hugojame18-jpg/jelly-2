@@ -50,6 +50,12 @@
   setAll('data-sku', p.sku || '—');
   setAll('data-dim', p.dim || '—');
   setAll('data-reviews-count', p.reviews ? '(' + p.reviews + ' Avis)' : '(0 Avis)');
+  /* Sans avis, on n'affiche pas d'etoiles : une note 5/5 avec (0 Avis)
+     annonce une note qui n'existe pas et sape la confiance. */
+  if (!p.reviews) {
+    var rating = document.querySelector('.pdp__rating');
+    if (rating) rating.hidden = true;
+  }
 
   /* --- Fil d'Ariane ------------------------------------------------------- */
   var crumbs = document.querySelector('[data-crumbs]');
@@ -174,6 +180,31 @@
     if (window.jcOpenDrawer) window.jcOpenDrawer();
     else document.dispatchEvent(new CustomEvent('jc:open-cart'));
   });
+
+  /* --- Barre d'achat collante (mobile) ------------------------------------
+     Le bouton principal se trouve sous la ligne de flottaison sur telephone.
+     On affiche la barre des qu'il sort de l'ecran, et son bouton rejoue
+     simplement le clic du bouton principal : une seule logique d'ajout. */
+  var buybar = document.querySelector('[data-buybar]');
+  if (buybar && btn) {
+    var buybarAdd = buybar.querySelector('[data-buybar-add]');
+    if (buybarAdd) buybarAdd.addEventListener('click', function () { btn.click(); });
+
+    var toggle = function (show) {
+      buybar.classList.toggle('is-visible', show);
+      buybar.setAttribute('aria-hidden', show ? 'false' : 'true');
+    };
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        toggle(!entries[0].isIntersecting);
+      }, { rootMargin: '0px 0px -40px 0px' }).observe(btn);
+    } else {
+      window.addEventListener('scroll', function () {
+        toggle(btn.getBoundingClientRect().bottom < 0);
+      }, { passive: true });
+    }
+  }
   /* --- Guide des tailles -------------------------------------------------- */
   var sgOverlay = document.getElementById('sizeguide-overlay');
   var sgModal   = document.getElementById('sizeguide');

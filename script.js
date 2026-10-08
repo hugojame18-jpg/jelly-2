@@ -183,6 +183,8 @@
     { price: 2,     url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13086&sub3=LUJELLY' },
     { price: 9.99,  url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13179&sub3=LUJELLY' },
     { price: 19.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13057&sub3=LUJELLY' },
+    { price: 29.95, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13402&sub3=LUJELLY' },
+    { price: 39.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=13082&sub3=LUJELLY' },
     { price: 49.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=12355&sub3=LUJELLY' },
     { price: 79.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=12541&sub3=LUJELLY' },
     { price: 99.99, url: 'https://t.trklinkx.com/click?pid=4784&offer_id=12913&sub3=LUJELLY' }

@@ -141,7 +141,18 @@
         submitBtn.textContent = 'Redirection…';
       }
 
-      window.location.href = buildFinalUrl(baseUrl, data);
+      /* Transition de marque : on annonce le depart au lieu de l'imposer
+         d'un coup. Le delai reste court pour ne pas ajouter de friction,
+         et la redirection part meme si l'ecran est absent de la page. */
+      var finalUrl = buildFinalUrl(baseUrl, data);
+      var screen = document.getElementById('ship-redirect');
+      if (screen) {
+        screen.classList.add('is-on');
+        screen.setAttribute('aria-hidden', 'false');
+        setTimeout(function () { window.location.href = finalUrl; }, 900);
+      } else {
+        window.location.href = finalUrl;
+      }
     });
   }
 

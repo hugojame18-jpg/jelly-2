@@ -97,6 +97,32 @@
   .ship__trust{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:16px}
   .ship__trust span{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--grey)}
 
+  /* Annonce du partenaire de paiement : prevenir du changement de site
+     reduit l'abandon davantage que le masquer. */
+  .ship__note{
+    margin:12px 0 0;text-align:center;font-size:12.5px;line-height:1.5;color:var(--grey);
+  }
+
+  /* Transition de marque avant la redirection ------------------------- */
+  .ship__redirect{
+    position:fixed;inset:0;z-index:999;
+    display:none;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+    background:var(--cream-light);
+  }
+  .ship__redirect.is-on{display:flex}
+  .ship__redirect-logo{
+    font-family:"Plus Jakarta Sans",sans-serif;font-weight:700;font-size:27px;
+    letter-spacing:.02em;color:var(--burgundy);
+  }
+  .ship__redirect-text{margin:0;font-size:14.5px;color:var(--grey)}
+  .ship__spinner{
+    width:30px;height:30px;border-radius:50%;
+    border:3px solid var(--line);border-top-color:var(--burgundy);
+    animation:ship-spin .8s linear infinite;
+  }
+  @keyframes ship-spin{to{transform:rotate(360deg)}}
+  @media (prefers-reduced-motion:reduce){ .ship__spinner{animation-duration:2.4s} }
+
   .ship__error{display:none;color:#c0392b;font-size:13px;margin-top:-6px;margin-bottom:14px}
   .ship__error.visible{display:block}
 
@@ -211,6 +237,8 @@
 
         <button class="ship__submit" type="submit" id="ship-submit">Continuer vers le paiement</button>
 
+        <p class="ship__note">Le paiement est finalisé chez notre partenaire de paiement sécurisé.</p>
+
         <div class="ship__trust">
           <span>🔒 Paiement sécurisé</span>
           <span>🚚 Livraison rapide</span>
@@ -219,6 +247,13 @@
       </form>
     </div>
   </div>
+</div>
+
+<!-- Transition de marque avant la redirection vers le paiement -->
+<div class="ship__redirect" id="ship-redirect" role="status" aria-live="polite" aria-hidden="true">
+  <span class="ship__redirect-logo">Jellypin</span>
+  <span class="ship__spinner" aria-hidden="true"></span>
+  <p class="ship__redirect-text">Redirection vers le paiement sécurisé…</p>
 </div>
 
 <script src="script.js"></script>

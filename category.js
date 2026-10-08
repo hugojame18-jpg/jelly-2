@@ -92,16 +92,97 @@
     });
   }
 
-  paint(rows);
+  /* --- Filtres + tri -------------------------------------------------------
+     Filtre et tri se composent : on part toujours de `rows`, on retire ce qui
+     ne passe pas les filtres, puis on trie le reste. */
+  var countEl   = document.querySelector('[data-count]');
+  var panel     = document.querySelector('[data-filters]');
+  var toggle    = document.querySelector('[data-filter-toggle]');
+  var currentSort = 'pertinence';
+  var picked = { badge: [], price: [] };
+
+  function uniq(values) {
+    var seen = {}, out = [];
+    values.forEach(function (v) { if (v && !seen[v]) { seen[v] = 1; out.push(v); } });
+    return out;
+  }
+
+  function matches(p) {
+    if (picked.badge.length && picked.badge.indexOf(p.badge) === -1) return false;
+    if (picked.price.length && picked.price.indexOf(p.price) === -1) return false;
+    return true;
+  }
+
+  function render() {
+    var list = rows.filter(matches);
+    if (currentSort === 'az')   list.sort(function (a, b) { return a.name.localeCompare(b.name, 'fr'); });
+    if (currentSort === 'za')   list.sort(function (a, b) { return b.name.localeCompare(a.name, 'fr'); });
+    if (currentSort === 'asc')  list.sort(function (a, b) { return num(a.price) - num(b.price); });
+    if (currentSort === 'desc') list.sort(function (a, b) { return num(b.price) - num(a.price); });
+    if (currentSort === 'nouveaute') list.sort(function (a, b) { return (b.badge === 'Nouveauté') - (a.badge === 'Nouveauté'); });
+    paint(list);
+    /* Des qu'un filtre est actif, on affiche le compte reel plutot que le
+       compteur de la fiche categorie. */
+    var actif = picked.badge.length || picked.price.length;
+    if (countEl) countEl.textContent = actif
+      ? list.length + ' article' + (list.length > 1 ? 's' : '') + ' sur ' + rows.length
+      : (cat.count || rows.length) + ' articles';
+  }
+
+  function group(title, key, values) {
+    return '<div class="cat__filters-group"><h3>' + title + '</h3><div class="cat__filters-list">' +
+      values.map(function (v) {
+        return '<label class="cat__chip"><input type="checkbox" data-key="' + key +
+               '" value="' + String(v).replace(/"/g, '&quot;') + '">' + v + '</label>';
+      }).join('') +
+      '</div></div>';
+  }
+
+  if (panel && toggle) {
+    var badges = uniq(rows.map(function (p) { return p.badge; }));
+    var prices = uniq(rows.map(function (p) { return p.price; }))
+      .sort(function (a, b) { return num(a) - num(b); });
+
+    var html = '';
+    if (badges.length > 1) html += group('Collection', 'badge', badges);
+    if (prices.length > 1) html += group('Prix', 'price', prices);
+
+    if (html) {
+      panel.innerHTML = html + '<button class="cat__filters-reset" type="button" data-filters-reset>Tout effacer</button>';
+
+      toggle.addEventListener('click', function () {
+        var open = panel.hidden;
+        panel.hidden = !open;
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+
+      panel.addEventListener('change', function (e) {
+        var box = e.target;
+        if (!box.matches('input[data-key]')) return;
+        var key = box.getAttribute('data-key');
+        var i = picked[key].indexOf(box.value);
+        if (box.checked) { if (i === -1) picked[key].push(box.value); }
+        else if (i !== -1) picked[key].splice(i, 1);
+        render();
+      });
+
+      panel.addEventListener('click', function (e) {
+        if (!e.target.matches('[data-filters-reset]')) return;
+        picked = { badge: [], price: [] };
+        panel.querySelectorAll('input[data-key]').forEach(function (b) { b.checked = false; });
+        render();
+      });
+    } else {
+      /* Rien a filtrer dans cette categorie : on retire le bouton plutot que
+         de laisser un controle sans effet. */
+      toggle.hidden = true;
+    }
+  }
 
   document.querySelector('[data-sort]').addEventListener('change', function (e) {
-    var v = e.target.value;
-    var list = rows.slice();
-    if (v === 'az') list.sort(function (a, b) { return a.name.localeCompare(b.name, 'fr'); });
-    if (v === 'za') list.sort(function (a, b) { return b.name.localeCompare(a.name, 'fr'); });
-    if (v === 'asc') list.sort(function (a, b) { return num(a.price) - num(b.price); });
-    if (v === 'desc') list.sort(function (a, b) { return num(b.price) - num(a.price); });
-    if (v === 'nouveaute') list.sort(function (a, b) { return (b.badge === 'Nouveauté') - (a.badge === 'Nouveauté'); });
-    paint(list);
+    currentSort = e.target.value;
+    render();
   });
+
+  render();
 })();

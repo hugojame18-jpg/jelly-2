@@ -83,7 +83,7 @@
   <nav class="cat__subs" data-subs hidden></nav>
 
   <div class="cat__bar" data-bar hidden>
-    <button class="cat__filter" type="button">Filtrer</button>
+    <button class="cat__filter" type="button" data-filter-toggle aria-expanded="false" aria-controls="cat-filters">Filtrer</button>
     <p data-count></p>
     <label class="cat__sort">Trier par
       <select data-sort>
@@ -97,6 +97,8 @@
       </select>
     </label>
   </div>
+
+  <div class="cat__filters" id="cat-filters" data-filters hidden></div>
 
   <div class="cat__grid" data-grid></div>
   <p class="cat__empty" data-empty hidden>Cette catégorie n'a pas de grille produits sur le site d'origine&nbsp;: choisissez une sous-catégorie ci-dessus.</p>

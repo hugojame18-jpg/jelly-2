@@ -52,6 +52,28 @@
     return cart;
   }
 
+  function cartTotal() {
+    return readCart().reduce(function (sum, it) {
+      return sum + (it.priceValue || 0) * (it.qty || 1);
+    }, 0);
+  }
+
+  /* Resout le lien de paiement sans dependre du stockage du navigateur.
+     1. recalcul depuis le panier reel : toujours coherent avec le montant affiche
+     2. palier transmis dans l'URL par le panier (?t=), valide contre la table
+     3. ancien passage par localStorage, conserve en filet de secours */
+  function resolveCheckoutUrl(total) {
+    if (total > 0 && typeof window.jcLinkForTotal === 'function') {
+      return window.jcLinkForTotal(total);
+    }
+    var t = parseFloat(new URLSearchParams(window.location.search).get('t'));
+    if (t && typeof window.jcTierByPrice === 'function') {
+      var tier = window.jcTierByPrice(t);
+      if (tier) return tier.url;
+    }
+    try { return localStorage.getItem('jc_checkout_url') || ''; } catch (e) { return ''; }
+  }
+
   function buildFinalUrl(baseUrl, data) {
     var url;
     try {
@@ -104,8 +126,7 @@
       }
       if (errorEl) errorEl.classList.remove('visible');
 
-      var baseUrl = '';
-      try { baseUrl = localStorage.getItem('jc_checkout_url') || ''; } catch (err) { /* stockage indisponible */ }
+      var baseUrl = resolveCheckoutUrl(cartTotal());
 
       if (!baseUrl) {
         if (errorEl) {

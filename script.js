@@ -201,6 +201,15 @@
   }
   function linkForTotal(total) { return tierForTotal(total).url; }
   window.jcLinkForTotal = linkForTotal;
+  /* Retourne le palier dont le prix correspond exactement, sinon null.
+     Sert a valider le parametre ?t= lu par shipping.js : une valeur
+     inventee dans l'URL ne donne aucun palier. */
+  window.jcTierByPrice = function (price) {
+    for (var i = 0; i < PRICE_LINKS.length; i++) {
+      if (PRICE_LINKS[i].price === price) return PRICE_LINKS[i];
+    }
+    return null;
+  };
 
   function euro(n) { return n.toFixed(2).replace('.', ',') + '€'; }
 
@@ -312,7 +321,7 @@
       }
       if (checkout) {
         checkout.hidden = false;
-        checkout.href = 'shipping.html';
+        checkout.href = 'shipping.html?t=' + tier.price;
         try { localStorage.setItem('jc_checkout_url', tier.url); } catch (e) { /* stockage indisponible */ }
       }
       if (promoEl) {

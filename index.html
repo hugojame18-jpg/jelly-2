@@ -21,25 +21,65 @@
 <div class="promo-bar">
   🚚 Livraison offerte dès 2&nbsp;&euro;&ensp;|&ensp;⚡ Expédié en 24h, livré en 3 jours &mdash; <a href="category.html?c=noel">Voir nos offres</a>
 </div>
-<div class="ads-notice" id="ads-notice" role="note" hidden>
-  <p>📢 Ce site contient de la publicité. Elle nous rémunère aussi, ce qui nous permet de proposer nos Jellypins à petits prix.</p>
-  <button type="button" class="ads-notice__close" aria-label="Fermer ce message" data-ads-close>&times;</button>
+<div class="ads-modal" id="ads-modal" hidden>
+  <div class="ads-modal__box" role="dialog" aria-modal="true" aria-labelledby="ads-modal-title" aria-describedby="ads-modal-text">
+    <button type="button" class="ads-modal__close" aria-label="Fermer" data-ads-close>&times;</button>
+    <div class="ads-modal__icon" aria-hidden="true">📢</div>
+    <h2 class="ads-modal__title" id="ads-modal-title">Petit message avant de commencer</h2>
+    <p class="ads-modal__text" id="ads-modal-text">Ce site contient de la publicité. Elle nous rémunère aussi, et c'est ce qui nous permet de proposer nos Jellypins à petits prix. Merci de votre soutien&nbsp;!</p>
+    <button type="button" class="ads-modal__ok" data-ads-close>J'ai compris</button>
+  </div>
 </div>
 <script>
-  /* Affiche la mention tant qu'elle n'a pas ete fermee. Si le stockage du
-     navigateur est indisponible, elle reste simplement visible : un message
-     de transparence ne doit jamais disparaitre par accident. */
+  /* Fenetre d'information sur la publicite : affichee a la premiere arrivee,
+     puis memorisee. Si aucun stockage n'est disponible, elle s'affiche a
+     chaque page plutot que de disparaitre par accident. */
   (function () {
-    var n = document.getElementById('ads-notice');
-    if (!n) return;
-    var KEY = 'jc_ads_notice', seen = false;
-    try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
-    if (!seen) n.hidden = false;
-    var b = n.querySelector('[data-ads-close]');
-    if (b) b.addEventListener('click', function () {
-      n.hidden = true;
-      try { localStorage.setItem(KEY, '1'); } catch (e) {}
-    });
+    var m = document.getElementById('ads-modal');
+    if (!m) return;
+    var KEY = 'jc_ads_popup', seen = false;
+    function store(kind) { try { return window[kind]; } catch (e) { return null; } }
+    function read() {
+      var a = store('localStorage'), b = store('sessionStorage');
+      try { if (a && a.getItem(KEY) === '1') return true; } catch (e) {}
+      try { if (b && b.getItem(KEY) === '1') return true; } catch (e) {}
+      return false;
+    }
+    function write() {
+      var done = false;
+      try { var a = store('localStorage'); if (a) { a.setItem(KEY, '1'); done = true; } } catch (e) {}
+      if (!done) { try { var b = store('sessionStorage'); if (b) b.setItem(KEY, '1'); } catch (e) {} }
+    }
+    if (read()) return;
+
+    var root = document.documentElement, prevOverflow = root.style.overflow;
+    var buttons = m.querySelectorAll('[data-ads-close]');
+    var previous = document.activeElement;
+    var ok = m.querySelector('.ads-modal__ok');
+
+    function close() {
+      m.hidden = true;
+      root.style.overflow = prevOverflow;
+      document.removeEventListener('keydown', onKey, true);
+      write();
+      if (previous && previous.focus) { try { previous.focus(); } catch (e) {} }
+    }
+    function onKey(e) {
+      if (e.key === 'Escape') { e.preventDefault(); close(); return; }
+      if (e.key !== 'Tab') return;
+      /* focus piege dans la fenetre : seulement la croix et le bouton */
+      var first = buttons[0], last = buttons[buttons.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+
+    for (var i = 0; i < buttons.length; i++) buttons[i].addEventListener('click', close);
+    m.addEventListener('click', function (e) { if (e.target === m) close(); });
+    document.addEventListener('keydown', onKey, true);
+
+    m.hidden = false;
+    root.style.overflow = 'hidden';
+    if (ok) ok.focus();
   })();
 </script>
 

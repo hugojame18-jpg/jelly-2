@@ -21,6 +21,27 @@
 <div class="promo-bar">
   🚚 Livraison offerte dès 2&nbsp;&euro;&ensp;|&ensp;⚡ Expédié en 24h, livré en 3 jours &mdash; <a href="category.html?c=noel">Voir nos offres</a>
 </div>
+<div class="ads-notice" id="ads-notice" role="note" hidden>
+  <p>📢 Ce site contient de la publicité. Elle nous rémunère aussi, ce qui nous permet de proposer nos Jellypins à petits prix.</p>
+  <button type="button" class="ads-notice__close" aria-label="Fermer ce message" data-ads-close>&times;</button>
+</div>
+<script>
+  /* Affiche la mention tant qu'elle n'a pas ete fermee. Si le stockage du
+     navigateur est indisponible, elle reste simplement visible : un message
+     de transparence ne doit jamais disparaitre par accident. */
+  (function () {
+    var n = document.getElementById('ads-notice');
+    if (!n) return;
+    var KEY = 'jc_ads_notice', seen = false;
+    try { seen = localStorage.getItem(KEY) === '1'; } catch (e) {}
+    if (!seen) n.hidden = false;
+    var b = n.querySelector('[data-ads-close]');
+    if (b) b.addEventListener('click', function () {
+      n.hidden = true;
+      try { localStorage.setItem(KEY, '1'); } catch (e) {}
+    });
+  })();
+</script>
 
 <!-- ====================================================================
      En-tete
